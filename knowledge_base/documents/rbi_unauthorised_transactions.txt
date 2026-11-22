@@ -1,0 +1,32 @@
+
+TITLE: Financial Awareness Messages - Customer Liability for Fraudulent Digital Transactions
+SOURCE ORGANISATION: Reserve Bank of India (RBI)
+SOURCE TYPE: Official RBI Financial Awareness Messages (FAME)
+SOURCE URL: https://rbi.org.in/commonman/images/FAME202426022024.pdf
+
+TOPIC: Unauthorised Digital Transactions and Customer Liability
+
+CONTENT:
+
+RBI advises customers to notify their bank immediately if they encounter a fraudulent or unauthorised electronic banking transaction.
+
+NOTIFY YOUR BANK:
+
+1. Notify your bank immediately if you encounter a fraudulent or unauthorised electronic banking transaction.
+2. The longer you take to notify the bank, the higher the potential loss to you or your bank.
+3. Your bank should provide an acknowledgement when you report the complaint.
+
+BANK RESPONSIBILITY:
+
+1. If fraudulent transactions continue after you have informed the bank, the bank will have to bear the loss.
+2. The bank must resolve the complaint within the applicable period specified in RBI guidance.
+
+CUSTOMER LIABILITY:
+
+Customer liability depends on the circumstances of the transaction and applicable RBI directions.
+
+IMPORTANT:
+
+This is a curated summary of RBI guidance, not a verbatim reproduction. Do not assume that every unauthorised transaction has the same liability outcome.
+
+END OF DOCUMENT

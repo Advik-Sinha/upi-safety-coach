@@ -1,0 +1,24 @@
+
+TITLE: MyUPI - User Controls and Safety Switch
+SOURCE ORGANISATION: National Payments Corporation of India (NPCI)
+SOURCE TYPE: Official NPCI product information
+SOURCE URL: https://www.npci.org.in/product/myupi.html
+
+TOPIC: UPI Safety Switch and Transaction Controls
+
+CONTENT:
+
+NPCI's MyUPI describes a Safety Switch that can request the decline of UPI debit transactions across selected linked accounts.
+
+IMPORTANT LIMITATIONS:
+
+1. Availability depends on access through a supported UPI app.
+2. The Safety Switch is an additional safeguard.
+3. It does not replace contacting the bank or issuer.
+4. The bank or issuer should be contacted for transaction blocking, account-level controls and fraud reporting.
+
+IMPORTANT:
+
+Do not assume that every UPI application supports the Safety Switch. Users should check the features available in their own supported UPI application.
+
+END OF DOCUMENT

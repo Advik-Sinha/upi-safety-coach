@@ -1,0 +1,28 @@
+
+TITLE: Reporting Financial Cyber Fraud
+SOURCE ORGANISATION: Indian Cyber Crime Coordination Centre (I4C), Ministry of Home Affairs
+SOURCE TYPE: Official government portal FAQ and reporting guidance
+SOURCE URL: https://cybercrime.gov.in/webform/FAQ.aspx
+
+CONTENT:
+
+The National Cyber Crime Reporting Portal allows citizens to report online financial fraud and other cybercrimes.
+
+To report financial cyber fraud:
+1. Visit https://cybercrime.gov.in/
+2. Select Register a Complaint.
+3. Choose Financial Fraud.
+4. Select Register a Complaint and follow the portal's instructions.
+5. Provide accurate incident details and relevant supporting evidence.
+6. Save the complaint acknowledgement number for future reference.
+
+The portal's Report Other Cybercrimes process requires registration using a valid Indian mobile number and OTP verification.
+
+The official cybercrime helpline for financial cyber fraud is 1930.
+
+Relevant evidence may include transaction receipts, bank statements, emails, chat transcripts, website URLs and screenshots.
+
+Complaints are handled by the concerned State or Union Territory police authorities.
+
+IMPORTANT:
+Report financial cyber fraud promptly. Contact your bank immediately as well. Never share your UPI PIN, OTP or banking passwords while seeking assistance.
