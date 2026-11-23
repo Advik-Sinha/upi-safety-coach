@@ -30,3 +30,9 @@ Thumbs.db
 # Generated ChromaDB database
 knowledge_base/database/
 
+knowledge_base/database_gemini/
+
+# Generated ChromaDB databases
+knowledge_base/database/
+knowledge_base/database_gemini/
+knowledge_base/database_sentence_transformers/

@@ -2,27 +2,19 @@
 from pathlib import Path
 
 import chromadb
-from chromadb.utils import embedding_functions
+from embedding_utils import embed_query
 
-# Locate the existing knowledge-base database
+# Locate the Gemini knowledge-base database
 BASE_DIR = Path(__file__).resolve().parent
-DATABASE_DIR = BASE_DIR / "knowledge_base" / "database"
+DATABASE_DIR = BASE_DIR / "knowledge_base" / "database_gemini"
 
-# Load the same embedding model used during ingestion
-embedding_function = (
-    embedding_functions.SentenceTransformerEmbeddingFunction(
-        model_name="all-MiniLM-L6-v2"
-    )
-)
-
-# Connect to the existing ChromaDB database
+# Connect to ChromaDB
 client = chromadb.PersistentClient(
     path=str(DATABASE_DIR)
 )
 
 collection = client.get_collection(
-    name="upi_official_guidance",
-    embedding_function=embedding_function
+    name="upi_official_guidance"
 )
 
 
@@ -37,8 +29,11 @@ def retrieve_guidance(question, n_results=5):
     # Retrieve a larger candidate pool
     candidate_count = min(max(n_results * 4, 15), total_chunks)
 
+    # Generate query embedding using Gemini
+    query_embedding = embed_query(question)
+
     results = collection.query(
-        query_texts=[question],
+        query_embeddings=[query_embedding],
         n_results=candidate_count
     )
 
@@ -52,7 +47,6 @@ def retrieve_guidance(question, n_results=5):
     for document, metadata, distance in zip(
         documents, metadatas, distances
     ):
-        # Identify the original document
         document_id = metadata.get(
             "source_file",
             metadata.get("title", "Unknown document")
