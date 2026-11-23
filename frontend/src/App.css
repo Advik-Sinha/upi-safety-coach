@@ -2147,3 +2147,513 @@ button {
     padding: 13px;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+/* =================================
+   SETTINGS PAGE
+================================= */
+
+.settings-page {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+.settings-card {
+  background: white;
+  border: 1px solid #e5eaf0;
+  border-radius: 16px;
+  padding: 26px;
+  margin-top: 35px;
+  box-shadow: 0 4px 16px rgba(15, 30, 50, 0.04);
+}
+
+.settings-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #edf0f4;
+}
+
+.settings-card-heading h3 {
+  font-size: 17px;
+  margin-bottom: 5px;
+}
+
+.settings-card-heading p,
+.setting-description p {
+  color: #788596;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.setting-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 25px 0;
+}
+
+.setting-description strong {
+  font-size: 14px;
+  color: #263448;
+}
+
+.setting-description p {
+  margin-top: 5px;
+  max-width: 500px;
+}
+
+.theme-toggle {
+  width: 50px;
+  height: 28px;
+  border: none;
+  border-radius: 30px;
+  background: #cbd5e1;
+  padding: 3px;
+  cursor: pointer;
+  transition: background 0.25s;
+  flex-shrink: 0;
+}
+
+.theme-toggle.enabled {
+  background: #159ca7;
+}
+
+.theme-toggle-knob {
+  display: block;
+  height: 22px;
+  width: 22px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 0.25s;
+}
+
+.theme-toggle.enabled .theme-toggle-knob {
+  transform: translateX(22px);
+}
+
+.theme-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #159ca7;
+  font-size: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #edf0f4;
+}
+
+/* =================================
+   DARK THEME
+================================= */
+
+.dark-theme {
+  background: #111827;
+  color: #e5e7eb;
+}
+
+.dark-theme .main-area {
+  background: #111827;
+}
+
+.dark-theme .topbar {
+  background: #172235;
+  border-bottom-color: #293548;
+  color: #e5e7eb;
+}
+
+.dark-theme .breadcrumb,
+.dark-theme .breadcrumb strong {
+  color: #e5e7eb;
+}
+
+.dark-theme .content {
+  background: #111827;
+}
+
+.dark-theme .hero h1,
+.dark-theme .section-heading h3,
+.dark-theme .message-content strong,
+.dark-theme .analyzer-card h3,
+.dark-theme .result-heading h3 {
+  color: #f1f5f9;
+}
+
+.dark-theme .hero p,
+.dark-theme .suggestion-card p,
+.dark-theme .disclaimer {
+  color: #a5b2c3;
+}
+
+.dark-theme .trust-strip,
+.dark-theme .suggestion-card,
+.dark-theme .example-prompt,
+.dark-theme .analyzer-card,
+.dark-theme .analysis-result,
+.dark-theme .composer,
+.dark-theme .settings-card,
+.dark-theme .about-card,
+.dark-theme .team-card {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e5e7eb;
+}
+
+.dark-theme .suggestion-card strong,
+.dark-theme .setting-description strong,
+.dark-theme .settings-card-heading h3,
+.dark-theme .team-card h3,
+.dark-theme .about-card h2 {
+  color: #f1f5f9;
+}
+
+.dark-theme .suggestion-card:hover {
+  background: #263449;
+}
+
+.dark-theme .composer textarea,
+.dark-theme .analyzer-input {
+  background: #172235;
+  color: #f1f5f9;
+  border-color: #334155;
+}
+
+.dark-theme .composer textarea::placeholder,
+.dark-theme .analyzer-input::placeholder {
+  color: #94a3b8;
+}
+
+.dark-theme .message-content,
+.dark-theme .markdown-content {
+  color: #dbe4ef;
+}
+
+.dark-theme .message-row.user .message-content {
+  background: #263449;
+}
+
+.dark-theme .source-panel {
+  background: #172c35;
+  border-color: #28515a;
+}
+
+.dark-theme .source-panel p,
+.dark-theme .source-disclaimer {
+  color: #b7c8d2;
+}
+
+.dark-theme .settings-card-heading,
+.dark-theme .setting-option,
+.dark-theme .theme-status {
+  border-color: #334155;
+}
+
+.dark-theme .settings-card-heading p,
+.dark-theme .setting-description p {
+  color: #a5b2c3;
+}
+
+.dark-theme .theme-status {
+  color: #4dd0d8;
+}
+
+.dark-theme .technology-tag,
+.dark-theme .source-link {
+  background: #263449;
+  border-color: #3b4b61;
+  color: #dbeafe;
+}
+
+.dark-theme .about-footer {
+  color: #a5b2c3;
+}
+
+.dark-theme .section-heading span {
+  color: #94a3b8;
+}
+
+/* Mobile settings */
+
+@media (max-width: 600px) {
+  .settings-card {
+    padding: 18px;
+  }
+
+  .setting-option {
+    gap: 12px;
+  }
+}
+
+
+
+/* =========================================
+   ADDITIONAL DARK MODE COVERAGE
+========================================= */
+
+/* Global text and page surfaces */
+
+.dark-theme .library-heading h1,
+.dark-theme .guide-detail h2,
+.dark-theme .practice-card h2,
+.dark-theme .emergency-step h3,
+.dark-theme .about-section .section-heading h3 {
+  color: #f1f5f9;
+}
+
+.dark-theme .library-heading > p,
+.dark-theme .guide-description,
+.dark-theme .guide-card p,
+.dark-theme .guide-content-card ul,
+.dark-theme .emergency-step p,
+.dark-theme .quiz-result p,
+.dark-theme .library-disclaimer {
+  color: #a5b2c3;
+}
+
+/* Safety Library */
+
+.dark-theme .library-tabs {
+  border-bottom-color: #334155;
+}
+
+.dark-theme .library-tabs button {
+  color: #94a3b8;
+}
+
+.dark-theme .library-tabs button.selected {
+  color: #4dd0d8;
+  border-bottom-color: #4dd0d8;
+}
+
+.dark-theme .library-search,
+.dark-theme .library-filters button,
+.dark-theme .guide-card,
+.dark-theme .guide-detail,
+.dark-theme .practice-card,
+.dark-theme .emergency-card,
+.dark-theme .guide-content-card,
+.dark-theme .quiz-option {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e5e7eb;
+}
+
+.dark-theme .library-search input {
+  color: #f1f5f9;
+}
+
+.dark-theme .library-search input::placeholder {
+  color: #94a3b8;
+}
+
+.dark-theme .library-filters button {
+  color: #a5b2c3;
+}
+
+.dark-theme .library-filters button.selected {
+  background: #16434a;
+  border-color: #28656b;
+  color: #75e0e3;
+}
+
+.dark-theme .guide-card h3,
+.dark-theme .guide-content-card h3,
+.dark-theme .quiz-explanation {
+  color: #f1f5f9;
+}
+
+.dark-theme .guide-card-top > span,
+.dark-theme .guide-category,
+.dark-theme .guide-card-icon,
+.dark-theme .guide-detail-icon,
+.dark-theme .emergency-number {
+  background: #16434a;
+  color: #75e0e3;
+}
+
+.dark-theme .guide-source {
+  background: #172235;
+  border-color: #334155;
+  color: #e5e7eb;
+}
+
+.dark-theme .guide-source span {
+  color: #a5b2c3;
+}
+
+.dark-theme .quiz-progress {
+  background: #334155;
+}
+
+.dark-theme .quiz-option {
+  color: #dbe4ef;
+}
+
+.dark-theme .quiz-option:not(:disabled):hover {
+  background: #263449;
+  border-color: #4b8790;
+}
+
+.dark-theme .quiz-option.correct {
+  background: #123d32;
+  border-color: #27865f;
+  color: #86efac;
+}
+
+.dark-theme .quiz-option.incorrect {
+  background: #482629;
+  border-color: #a34d55;
+  color: #fca5a5;
+}
+
+.dark-theme .quiz-explanation {
+  background: #172235;
+  border-color: #334155;
+}
+
+.dark-theme .quiz-explanation p {
+  color: #a5b2c3;
+}
+
+.dark-theme .emergency-banner {
+  background: #422c22;
+  border-color: #79503b;
+  color: #fdba74;
+}
+
+.dark-theme .emergency-banner p {
+  color: #fed7aa;
+}
+
+.dark-theme .emergency-note {
+  color: #a5b2c3;
+}
+
+/* Source panels */
+
+.dark-theme .source-item {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.dark-theme .source-item span {
+  color: #a5b2c3;
+}
+
+.dark-theme .source-item a {
+  color: #67d4dc;
+}
+
+.dark-theme .general-guidance {
+  color: #a5b2c3;
+}
+
+/* About & Credits */
+
+.dark-theme .team-id {
+  background: #172235;
+  border-color: #334155;
+  color: #a5b2c3;
+}
+
+.dark-theme .disclaimer-card {
+  background: #172c35;
+  border-color: #28515a;
+}
+
+.dark-theme .disclaimer-card h2 {
+  color: #75e0e3;
+}
+
+.dark-theme .about-section .section-heading h3 {
+  color: #f1f5f9;
+}
+
+.dark-theme .source-link:hover {
+  background: #263449;
+}
+
+/* Chat messages */
+
+.dark-theme .message-content p {
+  background: #1e293b;
+  border-color: #334155;
+  color: #dbe4ef;
+}
+
+.dark-theme .message-row.user .message-content p {
+  background: #263449;
+  border-color: #3b5067;
+}
+
+.dark-theme .message-avatar {
+  background: #16434a;
+  color: #75e0e3;
+}
+
+.dark-theme .user .message-avatar {
+  background: #334155;
+  color: #dbe4ef;
+}
+
+/* Conversation history */
+
+.dark-theme .conversation-item:hover,
+.dark-theme .conversation-item.active {
+  background: #263449;
+}
+
+.dark-theme .conversation-delete:hover {
+  background: #482629;
+  color: #fca5a5;
+}
+
+/* Settings */
+
+.dark-theme .settings-card-heading h3 {
+  color: #f1f5f9;
+}
+
+.dark-theme .theme-status {
+  border-top-color: #334155;
+}
+
+/* Focus visibility */
+
+.dark-theme button:focus-visible,
+.dark-theme a:focus-visible,
+.dark-theme input:focus-visible,
+.dark-theme textarea:focus-visible {
+  outline-color: #4dd0d8;
+}
+
+/* Smooth theme transition */
+
+.app-shell,
+.app-shell .main-area,
+.app-shell .topbar,
+.app-shell .content,
+.app-shell .suggestion-card,
+.app-shell .settings-card,
+.app-shell .about-card,
+.app-shell .guide-card,
+.app-shell .guide-detail,
+.app-shell .practice-card,
+.app-shell .emergency-card {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}

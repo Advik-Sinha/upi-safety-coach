@@ -21,7 +21,9 @@ import {
   X,
   FileSearch,
   Users,
-  ShieldAlert
+  ShieldAlert,
+  Moon,
+  Sun
 } from 'lucide-react'
 
 import './App.css'
@@ -68,6 +70,15 @@ function App() {
 
   // Page navigation
   const [activePage, setActivePage] = useState('chat')
+
+  // Theme preference
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem('upi_theme') === 'dark'
+  })
+
+  useEffect(() => {
+    localStorage.setItem('upi_theme', darkMode ? 'dark' : 'light')
+  }, [darkMode])
 
   // Fraud analyzer states
   const [analyzerText, setAnalyzerText] = useState('')
@@ -136,19 +147,16 @@ function App() {
     saveChat(updatedMessages)
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/chat`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: value,
-            history: messages
-          })
-        }
-      )
+      const response = await fetch(`${API_BASE_URL}/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: value,
+          history: messages
+        })
+      })
 
       if (!response.ok) {
         throw new Error('Backend request failed')
@@ -198,18 +206,15 @@ function App() {
     setAnalysisResult('')
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/analyze`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: value
-          })
-        }
-      )
+      const response = await fetch(`${API_BASE_URL}/analyze`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: value
+        })
+      })
 
       if (!response.ok) {
         throw new Error('Analysis request failed')
@@ -272,7 +277,7 @@ function App() {
   }
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${darkMode ? 'dark-theme' : ''}`}>
 
       {/* Sidebar */}
 
@@ -407,7 +412,10 @@ function App() {
             </div>
           </div>
 
-          <button className="nav-item settings">
+          <button
+            className={`nav-item settings ${activePage === 'settings' ? 'active' : ''}`}
+            onClick={() => navigateTo('settings')}
+          >
             <Settings size={18} />
             Settings
           </button>
@@ -457,7 +465,9 @@ function App() {
                   ? 'Fraud Checker'
                   : activePage === 'library'
                     ? 'Safety Library'
-                    : 'About & Credits'}
+                    : activePage === 'about'
+                      ? 'About & Credits'
+                      : 'Settings'}
             </strong>
           </div>
 
@@ -473,7 +483,85 @@ function App() {
 
           {/* PAGE SWITCHING */}
 
-          {activePage === 'about' ? (
+          {activePage === 'settings' ? (
+
+            /* SETTINGS PAGE */
+
+            <section className="settings-page">
+
+              <div className="welcome-tag">
+                <Settings size={15} />
+                PERSONAL PREFERENCES
+              </div>
+
+              <div className="hero">
+                <h1>
+                  Your <span>settings.</span>
+                </h1>
+
+                <p>
+                  Personalise your UPI Safety Coach experience.
+                </p>
+              </div>
+
+              <div className="settings-card">
+
+                <div className="settings-card-heading">
+
+                  <div className="suggestion-icon">
+                    {darkMode ? <Moon size={22} /> : <Sun size={22} />}
+                  </div>
+
+                  <div>
+                    <h3>Appearance</h3>
+                    <p>Choose how UPI Safety Coach looks.</p>
+                  </div>
+
+                </div>
+
+                <div className="setting-option">
+
+                  <div className="setting-description">
+                    <strong>Dark Mode</strong>
+
+                    <p>
+                      Use a darker colour scheme that's easier on the
+                      eyes in low-light environments.
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    className={`theme-toggle ${darkMode ? 'enabled' : ''}`}
+                    role="switch"
+                    aria-checked={darkMode}
+                    aria-label="Toggle dark mode"
+                    onClick={() => setDarkMode(prev => !prev)}
+                  >
+                    <span className="theme-toggle-knob" />
+                  </button>
+
+                </div>
+
+                <div className="theme-status">
+                  {darkMode ? (
+                    <>
+                      <Moon size={15} />
+                      Dark Mode is enabled
+                    </>
+                  ) : (
+                    <>
+                      <Sun size={15} />
+                      Light Mode is enabled
+                    </>
+                  )}
+                </div>
+
+              </div>
+
+            </section>
+
+          ) : activePage === 'about' ? (
 
             <AboutCredits />
 
@@ -542,9 +630,7 @@ function App() {
                   <button
                     className="analyze-button"
                     onClick={analyzeMessage}
-                    disabled={
-                      !analyzerText.trim() || isAnalyzing
-                    }
+                    disabled={!analyzerText.trim() || isAnalyzing}
                   >
                     {isAnalyzing
                       ? 'Analyzing...'
@@ -736,6 +822,7 @@ function App() {
                           {item.role === 'assistant' ? (
 
                             <>
+
                               <ReactMarkdown remarkPlugins={[remarkGfm]}>
                                 {item.content}
                               </ReactMarkdown>
@@ -873,10 +960,7 @@ function App() {
                     value={message}
                     onChange={e => setMessage(e.target.value)}
                     onKeyDown={e => {
-                      if (
-                        e.key === 'Enter' &&
-                        !e.shiftKey
-                      ) {
+                      if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault()
                         sendMessage()
                       }
