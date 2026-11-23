@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import SafetyLibrary from './SafetyLibrary'
+import AboutCredits from './AboutCredits'
 
 import {
   ShieldCheck,
@@ -19,6 +20,7 @@ import {
   Menu,
   X,
   FileSearch,
+  Users,
   ShieldAlert
 } from 'lucide-react'
 
@@ -135,7 +137,7 @@ function App() {
 
     try {
       const response = await fetch(
-      `${API_BASE_URL}/chat`,
+        `${API_BASE_URL}/chat`,
         {
           method: 'POST',
           headers: {
@@ -154,15 +156,15 @@ function App() {
 
       const data = await response.json()
 
-    const finalMessages = [
-  ...updatedMessages,
-  {
-    role: 'assistant',
-    content: data.reply,
-    answerMode: data.answer_mode || 'general_guidance',
-    sources: Array.isArray(data.sources) ? data.sources : []
-  }
-]
+      const finalMessages = [
+        ...updatedMessages,
+        {
+          role: 'assistant',
+          content: data.reply,
+          answerMode: data.answer_mode || 'general_guidance',
+          sources: Array.isArray(data.sources) ? data.sources : []
+        }
+      ]
 
       setMessages(finalMessages)
       saveChat(finalMessages)
@@ -197,7 +199,7 @@ function App() {
 
     try {
       const response = await fetch(
-      `${API_BASE_URL}/analyze`,
+        `${API_BASE_URL}/analyze`,
         {
           method: 'POST',
           headers: {
@@ -263,6 +265,12 @@ function App() {
     }
   }
 
+  // Navigate between pages
+  const navigateTo = (page) => {
+    setActivePage(page)
+    setSidebarOpen(false)
+  }
+
   return (
     <div className="app-shell">
 
@@ -300,31 +308,45 @@ function App() {
 
         <div className="nav-label">WORKSPACE</div>
 
+        {/* AI Assistant */}
+
         <button
           className={`nav-item ${activePage === 'chat' ? 'active' : ''}`}
-          onClick={() => setActivePage('chat')}
+          onClick={() => navigateTo('chat')}
         >
           <MessageCircle size={18} />
           AI Assistant
         </button>
 
+        {/* Fraud Checker */}
+
         <button
           className={`nav-item ${activePage === 'analyzer' ? 'active' : ''}`}
-          onClick={() => setActivePage('analyzer')}
+          onClick={() => navigateTo('analyzer')}
         >
           <ScanSearch size={18} />
           Fraud checker
         </button>
-<button
-  className={`nav-item ${activePage === 'library' ? 'active' : ''}`}
-  onClick={() => {
-    setActivePage('library')
-    setSidebarOpen(false)
-  }}
->
-  <BookOpen size={18} />
-  Safety library
-</button>
+
+        {/* Safety Library */}
+
+        <button
+          className={`nav-item ${activePage === 'library' ? 'active' : ''}`}
+          onClick={() => navigateTo('library')}
+        >
+          <BookOpen size={18} />
+          Safety library
+        </button>
+
+        {/* About & Credits */}
+
+        <button
+          className={`nav-item ${activePage === 'about' ? 'active' : ''}`}
+          onClick={() => navigateTo('about')}
+        >
+          <Users size={18} />
+          About & Credits
+        </button>
 
         <div className="nav-label history-label">
           RECENT ACTIVITY
@@ -429,11 +451,13 @@ function App() {
             Workspace <span>/</span>
 
             <strong>
-             {activePage === 'chat'
-  ? 'AI Assistant'
-  : activePage === 'analyzer'
-    ? 'Fraud Checker'
-    : 'Safety Library'}
+              {activePage === 'chat'
+                ? 'AI Assistant'
+                : activePage === 'analyzer'
+                  ? 'Fraud Checker'
+                  : activePage === 'library'
+                    ? 'Safety Library'
+                    : 'About & Credits'}
             </strong>
           </div>
 
@@ -449,9 +473,15 @@ function App() {
 
           {/* PAGE SWITCHING */}
 
-         {activePage === 'library' ? (
-  <SafetyLibrary />
-) : activePage === 'analyzer' ? (
+          {activePage === 'about' ? (
+
+            <AboutCredits />
+
+          ) : activePage === 'library' ? (
+
+            <SafetyLibrary />
+
+          ) : activePage === 'analyzer' ? (
 
             /* FRAUD ANALYZER PAGE */
 
@@ -703,89 +733,89 @@ function App() {
 
                         <div className="markdown-content">
 
-                         {item.role === 'assistant' ? (
+                          {item.role === 'assistant' ? (
 
-  <>
-    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-      {item.content}
-    </ReactMarkdown>
+                            <>
+                              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                {item.content}
+                              </ReactMarkdown>
 
-    {item.answerMode === 'knowledge_base_assisted' ? (
+                              {item.answerMode === 'knowledge_base_assisted' ? (
 
-      <div className="source-panel">
+                                <div className="source-panel">
 
-        <div className="source-status">
-          <ShieldCheck size={16} />
-          Official knowledge-base material retrieved
-        </div>
+                                  <div className="source-status">
+                                    <ShieldCheck size={16} />
+                                    Official knowledge-base material retrieved
+                                  </div>
 
-        {item.sources?.length > 0 && (
+                                  {item.sources?.length > 0 && (
 
-          <details className="source-details">
+                                    <details className="source-details">
 
-            <summary>
-              Sources & References ({item.sources.length})
-            </summary>
+                                      <summary>
+                                        Sources & References ({item.sources.length})
+                                      </summary>
 
-            <div className="source-list">
+                                      <div className="source-list">
 
-              {item.sources.map((source, sourceIndex) => (
+                                        {item.sources.map((source, sourceIndex) => (
 
-                <div className="source-item" key={sourceIndex}>
+                                          <div className="source-item" key={sourceIndex}>
 
-                  <strong>{source.organisation}</strong>
+                                            <strong>{source.organisation}</strong>
 
-                  <p>{source.title}</p>
+                                            <p>{source.title}</p>
 
-                  <span>
-                    Page: {source.page}
-                  </span>
+                                            <span>
+                                              Page: {source.page}
+                                            </span>
 
-                  {source.url && (
+                                            {source.url && (
 
-                    <a
-                      href={source.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View official source ↗
-                    </a>
+                                              <a
+                                                href={source.url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                              >
+                                                View official source ↗
+                                              </a>
 
-                  )}
+                                            )}
 
-                </div>
+                                          </div>
 
-              ))}
+                                        ))}
 
-            </div>
+                                      </div>
 
-          </details>
+                                    </details>
 
-        )}
+                                  )}
 
-        <p className="source-disclaimer">
-          Retrieved sources support this response but do not
-          independently verify every AI-generated statement.
-        </p>
+                                  <p className="source-disclaimer">
+                                    Retrieved sources support this response but do not
+                                    independently verify every AI-generated statement.
+                                  </p>
 
-      </div>
+                                </div>
 
-    ) : (
+                              ) : (
 
-      <div className="source-panel general-guidance">
-        <Sparkles size={15} />
-        General AI guidance — not verified against the knowledge base.
-      </div>
+                                <div className="source-panel general-guidance">
+                                  <Sparkles size={15} />
+                                  General AI guidance — not verified against the knowledge base.
+                                </div>
 
-    )}
+                              )}
 
-  </>
+                            </>
 
-) : (
+                          ) : (
 
-  <p>{item.content}</p>
+                            <p>{item.content}</p>
 
-)}
+                          )}
 
                         </div>
 
