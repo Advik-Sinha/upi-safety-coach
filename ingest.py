@@ -1,12 +1,13 @@
 
 from pathlib import Path
+
 import chromadb
-from chromadb.utils import embedding_functions
+from embedding_utils import embed_documents
 from pypdf import PdfReader
 
 BASE_DIR = Path(__file__).resolve().parent
 DOCUMENTS_DIR = BASE_DIR / "knowledge_base" / "documents"
-DATABASE_DIR = BASE_DIR / "knowledge_base" / "database"
+DATABASE_DIR = BASE_DIR / "knowledge_base" / "database_gemini"
 
 CHUNK_SIZE = 250
 CHUNK_OVERLAP = 50
@@ -19,7 +20,6 @@ SOURCE_METADATA = {
         "source_type": "PDF",
         "source_url": "https://www.rbi.org.in/commonman/images/FAME202426022024.pdf"
     },
-
     "rbi_safe_digital_transactions.txt": {
         "source_org": "Reserve Bank of India (RBI)",
         "title": "Safe Use of Digital Transactions",
@@ -27,7 +27,6 @@ SOURCE_METADATA = {
         "source_type": "Manually reviewed webpage",
         "source_url": "https://www.rbi.org.in/CommonPerson/english/scripts/Notification.aspx?Id=3232"
     },
-
     "cybercrime_financial_fraud.txt": {
         "source_org": "Indian Cyber Crime Coordination Centre (I4C)",
         "title": "Reporting Financial Cyber Fraud",
@@ -35,7 +34,6 @@ SOURCE_METADATA = {
         "source_type": "Manually curated official portal guidance",
         "source_url": "https://cybercrime.gov.in/webform/FAQ.aspx"
     },
-
     "npci_upi_safety.txt": {
         "source_org": "National Payments Corporation of India (NPCI)",
         "title": "MyUPI - User Controls and Safety Switch",
@@ -43,7 +41,6 @@ SOURCE_METADATA = {
         "source_type": "Curated summary of official NPCI product information",
         "source_url": "https://www.npci.org.in/product/myupi.html"
     },
-
     "rbi_unauthorised_transactions.txt": {
         "source_org": "Reserve Bank of India (RBI)",
         "title": "Financial Awareness Messages - Customer Liability for Fraudulent Digital Transactions",
@@ -51,15 +48,13 @@ SOURCE_METADATA = {
         "source_type": "Curated summary of official RBI FAME guidance",
         "source_url": "https://rbi.org.in/commonman/images/FAME202426022024.pdf"
     },
-
     "rbi_shared_credentials_response.txt": {
-    "source_org": "Reserve Bank of India",
-    "title": "Responding to Shared or Exposed UPI Payment Credentials",
-    "publication_date": None,
-    "source_type": "Curated summary of official RBI guidance",
-    "source_url": "https://rbi.org.in/commonman/images/FAME202426022024.pdf"
-},
-
+        "source_org": "Reserve Bank of India",
+        "title": "Responding to Shared or Exposed UPI Payment Credentials",
+        "publication_date": "Not specified",
+        "source_type": "Curated summary of official RBI guidance",
+        "source_url": "https://rbi.org.in/commonman/images/FAME202426022024.pdf"
+    },
     "upi_compromised_credentials.txt": {
         "source_org": "UPI Safety Coach",
         "title": "Guidance on Compromised UPI Credentials",
@@ -110,28 +105,18 @@ def create_chunks(text):
 
 
 def main():
-    print("Connecting to ChromaDB...")
+    print("Connecting to Gemini ChromaDB...")
+
+    DATABASE_DIR.mkdir(parents=True, exist_ok=True)
 
     client = chromadb.PersistentClient(
         path=str(DATABASE_DIR)
     )
 
-    embedding_function = (
-        embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name="all-MiniLM-L6-v2"
-        )
-    )
-
     collection = client.get_or_create_collection(
         name="upi_official_guidance",
-        embedding_function=embedding_function,
+        embedding_function=None,
         metadata={"hnsw:space": "cosine"}
-    )
-
-    # Remove the old combined document from ChromaDB.
-    # Its information is now being separated into individual sources.
-    collection.delete(
-        where={"source_file": "upi_compromised_credentials.txt"}
     )
 
     files = (
@@ -151,9 +136,7 @@ def main():
     for file_path in files:
         print(f"\nProcessing: {file_path.name}")
 
-        metadata_template = SOURCE_METADATA.get(
-            file_path.name
-        )
+        metadata_template = SOURCE_METADATA.get(file_path.name)
 
         if not metadata_template:
             print("No source metadata configured. Skipping.")
@@ -192,21 +175,31 @@ def main():
                     "chunk_index": chunk_index
                 })
 
-        # Remove previous chunks for this source before re-ingesting.
+        if not documents:
+            print("No readable text found.")
+            continue
+
+        print(f"Generating Gemini embeddings for {len(documents)} chunks...")
+
+        # Generate embeddings before replacing existing records.
+        embeddings = embed_documents(documents)
+
+        if len(embeddings) != len(documents):
+            raise RuntimeError("Embedding count does not match document count.")
+
+        # Remove previous chunks only after embedding generation succeeds.
         collection.delete(
             where={"source_file": file_path.name}
         )
 
-        if documents:
-            collection.upsert(
-                ids=ids,
-                documents=documents,
-                metadatas=metadatas
-            )
+        collection.upsert(
+            ids=ids,
+            documents=documents,
+            metadatas=metadatas,
+            embeddings=embeddings
+        )
 
-            print(f"Stored {len(documents)} chunks.")
-        else:
-            print("No readable text found.")
+        print(f"Stored {len(documents)} chunks successfully.")
 
     print("\nKnowledge base updated!")
     print(f"Total stored chunks: {collection.count()}")
