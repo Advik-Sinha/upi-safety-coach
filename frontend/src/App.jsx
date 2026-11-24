@@ -420,14 +420,6 @@ function App() {
             Settings
           </button>
 
-          <div className="profile">
-            <div className="avatar">U</div>
-
-            <div>
-              <strong>Guest User</strong>
-              <span>Personal workspace</span>
-            </div>
-          </div>
 
         </div>
 
@@ -474,7 +466,6 @@ function App() {
           <div className="topbar-right">
             <span className="online-dot" />
             <span>Assistant ready</span>
-            <div className="top-avatar">U</div>
           </div>
 
         </header>

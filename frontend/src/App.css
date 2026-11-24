@@ -2657,3 +2657,78 @@ button {
     border-color 0.2s ease,
     color 0.2s ease;
 }
+
+
+
+
+
+
+/* Independent sidebar and main-content scrolling */
+
+.app-shell {
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.main-area {
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.topbar {
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Preserve the mobile slide-out sidebar */
+@media (max-width: 650px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    height: 100dvh;
+    z-index: 10;
+  }
+}
+
+
+
+
+
+
+
+/* Hide scrollbars without disabling scrolling */
+
+.content,
+.sidebar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Older Edge */
+}
+
+.content::-webkit-scrollbar,
+.sidebar::-webkit-scrollbar {
+  display: none; /* Chrome, Edge, Safari */
+}
